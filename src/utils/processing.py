@@ -4,9 +4,9 @@ from bs4 import BeautifulSoup
 class Processing:
     """ ETL Processing """
     def __init__(self) -> None:
-        pass
+        self.anime_rank: list = []
 
-    def extract(self):
+    def extract(self) -> object:
         """ To extract data from source using web scraping strategy """
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
@@ -18,7 +18,6 @@ class Processing:
         # Init beautiful soup
         soup = BeautifulSoup(page.text, 'html.parser')
 
-        anime_rank: list = []
         ranking_list = soup.find_all('tr', class_='ranking-list')
         count: int = 0
         for ranking in ranking_list:
@@ -32,65 +31,65 @@ class Processing:
                 anime_detail = detail.text.replace('\n','').split(':')
 
                 if anime_detail[0] == "Synonyms":
-                    synonyms = anime_detail[1]
+                    synonyms = anime_detail[1].strip()
 
                 if anime_detail[0] == "Japanese":
-                    japanese = anime_detail[1]
+                    japanese = anime_detail[1].strip()
 
                 if anime_detail[0] == "English":
-                    english = anime_detail[1]
+                    english = anime_detail[1].strip()
 
                 if anime_detail[0] == "Type":
-                    type_ = anime_detail[1]
+                    type_ = anime_detail[1].strip()
 
                 if anime_detail[0] == "Episodes":
-                    episodes = anime_detail[1]
+                    episodes = int(anime_detail[1])
 
                 if anime_detail[0] == "Status":
-                    status = anime_detail[1]
+                    status = anime_detail[1].strip()
 
                 if anime_detail[0] == "Aired":
-                    aired = anime_detail[1]
+                    aired = anime_detail[1].strip()
 
                 if anime_detail[0] == "Producers":
-                    producers = anime_detail[1].split(',')
+                    producers = [x.strip() for x in anime_detail[1].split(',')] # remove empty spaces
 
                 if anime_detail[0] == "Studios":
-                    studios = anime_detail[1].split(",")
+                    studios = [x.strip() for x in anime_detail[1].split(',')] # remove empty spaces
 
                 if anime_detail[0] == "Source":
-                    source = anime_detail[1]
+                    source = anime_detail[1].strip()
 
                 if anime_detail[0] == "Genres":
-                    genres = anime_detail[1].split(",")
+                    genres = [x.strip()[:-int(len(x.strip())/2)] for x in anime_detail[1].split(',')] # remove empty spaces and duplicate words
 
                 if anime_detail[0] == "Demographic":
-                    demographic = anime_detail[1]
+                    demographic = anime_detail[1].strip()[:-int(len(anime_detail[1].strip())/2)] # remove duplicate words
 
                 if anime_detail[0] == "Duration":
-                    duration = anime_detail[1]
+                    duration = anime_detail[1].strip()
 
                 if anime_detail[0] == "Rating":
-                    rating = anime_detail[1]
+                    rating = anime_detail[1].strip()
 
                 if anime_detail[0] == "Score":
-                    score = anime_detail[1].split(' ')[0][:-1]
+                    score = float(anime_detail[1].split(' ')[0][:-1])
 
                 if anime_detail[0] == "Ranked":
-                    ranked = anime_detail[1].split(' ')[2].split("#")[1][:-2]
+                    ranked = int(anime_detail[1].split(' ')[2].split("#")[1][:-2])
 
                 if anime_detail[0] == "Popularity":
-                    popularity = anime_detail[1]
+                    popularity = int(anime_detail[1].split("#")[1])
 
                 if anime_detail[0] == "Members":
-                    members = anime_detail[1]
+                    members = float(anime_detail[1].replace(',','.'))
 
                 if anime_detail[0] == "Favorites":
-                    favorites = anime_detail[1]
+                    favorites = float(anime_detail[1].replace(',','.'))
 
             anime_detail = {
                 "titles": {
-                    "Synonyms": synonyms,
+                    "synonyms": synonyms,
                     "japanese": japanese,
                     "english": english,
                 },
@@ -115,9 +114,9 @@ class Processing:
                     "favorites": favorites
                 }
             }
-            anime_rank.append(anime_detail)
+            self.anime_rank.append(anime_detail)
             count += 1
             print(count)
             synonyms, demographic, english = ['', '', ''] # reset verables
 
-        return anime_rank
+        return self.anime_rank
