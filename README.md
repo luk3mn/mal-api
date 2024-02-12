@@ -136,12 +136,12 @@ _Before starting this application in your local environment, it'll be necessary 
 
 > Processing
 - [x] Extract: get data from source using web scrapping
-- [ ] Transform: to valid some information before storing in database
-- [ ] Load: store data into mongodb database
+- [x] Transform: to valid some information before storing in database
+- [x] Load: store data into mongodb database
 
 > MongoDB
-- [ ] Database configuration
-- [ ] Working on repository class
+- [x] Database configuration
+- [x] Working on repository class
 
 > API Rest
 - [ ] GET /api/anime

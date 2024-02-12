@@ -1,12 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
+from src.models.database.connection import DBConnectionHandler
+from src.models.repository.anime_repository import AnimeRepository
 
 class Processing:
     """ ETL Processing """
     def __init__(self) -> None:
         self.anime_rank: list = []
 
-    def extract(self) -> object:
+    def extract_anime_rank(self) -> object:
         """ To extract data from source using web scraping strategy """
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
@@ -26,8 +28,8 @@ class Processing:
             access_details = requests.get(link_details, headers=headers, timeout=10)
             soup_details = BeautifulSoup(access_details.text, 'html.parser')
             leftside = soup_details.find('div', class_='leftside')
-
             for detail in leftside.find_all('div', class_='spaceit_pad'):
+                cover = ranking.find('img')['data-srcset'].split(',')[1].split(' ')[1]
                 anime_detail = detail.text.replace('\n','').split(':')
 
                 if anime_detail[0] == "Synonyms":
@@ -43,7 +45,7 @@ class Processing:
                     type_ = anime_detail[1].strip()
 
                 if anime_detail[0] == "Episodes":
-                    episodes = int(anime_detail[1])
+                    episodes = int(anime_detail[1]) if anime_detail[1].strip() != "Unknown" else anime_detail[1].strip()
 
                 if anime_detail[0] == "Status":
                     status = anime_detail[1].strip()
@@ -82,12 +84,13 @@ class Processing:
                     popularity = int(anime_detail[1].split("#")[1])
 
                 if anime_detail[0] == "Members":
-                    members = float(anime_detail[1].replace(',','.'))
+                    members = anime_detail[1].replace(',','.')
 
                 if anime_detail[0] == "Favorites":
                     favorites = float(anime_detail[1].replace(',','.'))
 
             anime_detail = {
+                "cover": cover,
                 "titles": {
                     "synonyms": synonyms,
                     "japanese": japanese,
@@ -120,3 +123,13 @@ class Processing:
             synonyms, demographic, english = ['', '', ''] # reset verables
 
         return self.anime_rank
+
+    def load_anime_rank(self):
+        db_handler = DBConnectionHandler()
+        db_connection = db_handler.connect_database()
+
+        anime_repository = AnimeRepository("anime_rank", db_connection)
+
+        anime_repository.drop_all()
+        for anime in self.anime_rank:
+            anime_repository.insert_document(anime)
