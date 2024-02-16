@@ -144,7 +144,7 @@ _Before starting this application in your local environment, it'll be necessary 
 - [x] Working on repository class
 
 > API Rest
-- [ ] GET /api/anime
+- [x] GET /api/anime
 - [ ] GET /api/anime/name/{anime_name}
 - [ ] GET /api/anime/genre/{genre_name}
 - [ ] GET /api/anime/rating/{anime_rank}
@@ -178,6 +178,9 @@ Project Link: [https://github.com/luk3mn/mal-api](https://github.com/luk3mn/mal-
 I think it would be interesting to place here some references and other resources that were really useful and helped me to work on this project.
 * [Web Scraping With Python – Step-By-Step Guide](https://brightdata.com/blog/how-tos/web-scraping-with-python)
 * [Beautiful Soup: Build a Web Scraper With Python](https://realpython.com/beautiful-soup-web-scraper-python/)
+* [StackOverflow](https://stackoverflow.com/questions/25589113/how-to-select-a-single-field-for-all-documents-in-a-mongodb-collection)
+* [w3schools: Python MongoDB Find](https://www.w3schools.com/python/python_mongodb_find.asp)
+* [How to Use *args and **kwargs in Python](https://www.freecodecamp.org/news/args-and-kwargs-in-python/)
 
 <p align="right">(<a href="#mal-api">back to top</a>)</p>
 

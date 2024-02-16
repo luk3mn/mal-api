@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-from src.models.database.connection import DBConnectionHandler
 from src.models.repository.anime_repository import AnimeRepository
 
 class Processing:
@@ -125,10 +124,7 @@ class Processing:
         return self.anime_rank
 
     def load_anime_rank(self):
-        db_handler = DBConnectionHandler()
-        db_connection = db_handler.connect_database()
-
-        anime_repository = AnimeRepository("anime_rank", db_connection)
+        anime_repository = AnimeRepository("anime_rank")
 
         anime_repository.drop_all()
         for anime in self.anime_rank:
