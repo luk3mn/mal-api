@@ -8,13 +8,11 @@ class AnimeRankDto:
         self.__score = kwargs['score']
 
     def get_anime_dto(self):
-        return [
-            {
-                "cover": self.__cover,
-                "title": self.__title,
-                "genres": self.__genres,
-                "episodes": self.__episodes,
-                "status": self.__status,
-                "score": self.__score
-            }
-        ]
+        return {
+            "cover": self.__cover,
+            "title": self.__title,
+            "genres": self.__genres,
+            "episodes": self.__episodes,
+            "status": self.__status,
+            "score": self.__score
+        }

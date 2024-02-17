@@ -22,25 +22,50 @@ def populate_db():
         return jsonify({"message": "Something went wrong!"}), 500
 
 @anime_routes_bp.route('/api/anime')
-def anime():
+def get_anime() -> jsonify:
     """ GET /api/anime """
     anime_repository = AnimeRepository("anime_rank")
-    response = anime_repository.find_documents()
+    anime_response = anime_repository.find_documents()
 
     anime_rank_dto_list = []
-    for r in response:
+    for anime in anime_response:
         anime_rank_dto = AnimeRankDto(
-            title=r['titles']['english'],
-            genres=r['information']['genres'],
-            cover=r['cover'],
-            status="Currently Airing",
-            score=r['information']['status'],
-            episodes=r['information']['episodes']
+            title=anime['titles']['english'],
+            genres=anime['information']['genres'],
+            cover=anime['cover'],
+            status=anime['information']['status'],
+            score=anime['statistics']['score'],
+            episodes=anime['information']['episodes']
         )
         anime_rank_dto_list.append(anime_rank_dto.get_anime_dto())
 
     if not anime_rank_dto_list:
         return jsonify({"Message": "There's no any data into database]"}), 400
     else:
-        # print(anime_rank_dto_list)
         return jsonify(anime_rank_dto_list), 201
+
+@anime_routes_bp.route('/api/anime/genre/<string:genre_name>', methods=["GET"])
+def get_by_genre(genre_name: str) -> jsonify:
+    """ GET /api/anime/genre/{genre_name} """
+    anime_repository = AnimeRepository("anime_rank")
+    anime_response = anime_repository.find_documents()
+
+    filtered_by_genre = []
+    for anime in anime_response:
+        genres = anime['information']['genres']
+        if genre_name in [x.lower() for x in genres]:
+
+            anime_rank_dto = AnimeRankDto(
+                title=anime['titles']['english'],
+                genres=anime['information']['genres'],
+                cover=anime['cover'],
+                status=anime['information']['status'],
+                score=anime['statistics']['score'],
+                episodes=anime['information']['episodes']
+            )
+            filtered_by_genre.append(anime_rank_dto.get_anime_dto())
+
+    if not filtered_by_genre:
+        return jsonify({"message":f"Genre '{genre_name}' does not exists"}), 404
+    else:
+        return jsonify({"message":f"Results to anime by '{genre_name}' genre"}, filtered_by_genre)
