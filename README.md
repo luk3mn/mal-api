@@ -148,7 +148,7 @@ _Before starting this application in your local environment, it'll be necessary 
 - [ ] GET /api/anime/name/{anime_name}
 - [x] GET /api/anime/genre/{genre_name}
 - [ ] GET /api/anime/rating/{anime_rank}
-- [ ] GET /api/anime/score/{anime_score}
+- [x] GET /api/anime/score/{anime_score}
 
 <p align="right">(<a href="#mal-api">back to top</a>)</p>
 
