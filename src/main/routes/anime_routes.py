@@ -121,3 +121,19 @@ def get_by_rank(anime_rank: int) -> jsonify:
     if not filtered_by_rank:
         return jsonify({"message":f"The rank '{anime_rank}' does not exists"}), 404
     return jsonify(filtered_by_rank)
+
+@anime_routes_bp.route('/api/anime/name/<anime_name>', methods=["GET"])
+def get_by_name(anime_name: int) -> jsonify:
+    """ GET /api/anime/name/{anime_name} """
+    anime_repository = AnimeRepository("anime_rank")
+    anime_response = anime_repository.find_documents()
+
+    filtered_by_name = []
+    for anime in anime_response:
+        if anime_name in anime['titles']['english'].lower():
+            filtered_by_name.append(anime)
+
+    if not filtered_by_name:
+        return jsonify({"message":f"There's no an anime by name '{anime_name}' in this list"}), 404
+    else:
+        return jsonify({"message":f"Results to anime by name '{anime_name}'"}, filtered_by_name)

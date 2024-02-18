@@ -145,7 +145,7 @@ _Before starting this application in your local environment, it'll be necessary 
 
 > API Rest
 - [x] GET /api/anime
-- [ ] GET /api/anime/name/{anime_name}
+- [x] GET /api/anime/name/{anime_name}
 - [x] GET /api/anime/genre/{genre_name}
 - [x] GET /api/anime/rank/{anime_rank}
 - [x] GET /api/anime/score/{anime_score}
