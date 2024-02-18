@@ -1,8 +1,9 @@
 from flask import Blueprint, jsonify
 from src.utils.processing import Processing
 from src.models.repository.anime_repository import AnimeRepository
-from src.main.dto.anime_rank_dto import AnimeRankDto
+from src.main.dto.anime_dto import AnimeDto
 from src.main.dto.anime_score_dto import AnimeScoreDto
+from src.main.dto.anime_rank_dto import AnimeRankDto
 
 anime_routes_bp = Blueprint('anime_routes', __name__)
 
@@ -30,7 +31,7 @@ def get_anime() -> jsonify:
 
     anime_rank_dto_list = []
     for anime in anime_response:
-        anime_rank_dto = AnimeRankDto(
+        anime_dto = AnimeDto(
             title=anime['titles']['english'],
             genres=anime['information']['genres'],
             cover=anime['cover'],
@@ -38,7 +39,7 @@ def get_anime() -> jsonify:
             score=anime['statistics']['score'],
             episodes=anime['information']['episodes']
         )
-        anime_rank_dto_list.append(anime_rank_dto.get_anime_dto())
+        anime_rank_dto_list.append(anime_dto.get_anime_dto())
 
     if not anime_rank_dto_list:
         return jsonify({"message": "There's no any data into database]"}), 404
@@ -56,7 +57,7 @@ def get_by_genre(genre_name: str) -> jsonify:
         genres = anime['information']['genres']
         if genre_name in [x.lower() for x in genres]:
 
-            anime_rank_dto = AnimeRankDto(
+            anime_dto = AnimeDto(
                 title=anime['titles']['english'],
                 genres=anime['information']['genres'],
                 cover=anime['cover'],
@@ -64,7 +65,7 @@ def get_by_genre(genre_name: str) -> jsonify:
                 score=anime['statistics']['score'],
                 episodes=anime['information']['episodes']
             )
-            filtered_by_genre.append(anime_rank_dto.get_anime_dto())
+            filtered_by_genre.append(anime_dto.get_anime_dto())
 
     if not filtered_by_genre:
         return jsonify({"message":f"Genre '{genre_name}' does not exists"}), 404
@@ -92,3 +93,31 @@ def get_by_score(anime_score: int) -> jsonify:
     if not filtered_by_score:
         return jsonify({"message":f"Score '{anime_score}' does not exists"}), 404
     return jsonify(filtered_by_score)
+
+@anime_routes_bp.route('/api/anime/rank/<anime_rank>', methods=["GET"])
+def get_by_rank(anime_rank: int) -> jsonify:
+    """ GET /api/anime/rank/{anime_rank} """
+    anime_repository = AnimeRepository("anime_rank")
+    anime_response = anime_repository.find_documents()
+
+    filtered_by_rank = []
+    for anime in anime_response:
+        if int(anime_rank) == anime['statistics']['ranked']:
+            anime_rank_dto = AnimeRankDto(
+                cover=anime['cover'],
+                title=anime['titles']['english'],
+                popularity=anime['statistics']['popularity'],
+                rank=anime['statistics']['ranked'],
+                aired=anime['information']['aired'],
+                source=anime['information']['source'],
+                episodes=anime['information']['episodes'],
+                duration=anime['information']['duration'],
+                status=anime['information']['status'],
+                studios=anime['information']['studios'],
+                members=anime['statistics']['members'],
+            )
+            filtered_by_rank.append(anime_rank_dto.get_anime_rank_dto())
+
+    if not filtered_by_rank:
+        return jsonify({"message":f"The rank '{anime_rank}' does not exists"}), 404
+    return jsonify(filtered_by_rank)
