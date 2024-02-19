@@ -144,11 +144,12 @@ _Before starting this application in your local environment, it'll be necessary 
 - [x] Working on repository class
 
 > API Rest
-- [x] GET /api/anime
-- [x] GET /api/anime/name/{anime_name}
-- [x] GET /api/anime/genre/{genre_name}
-- [x] GET /api/anime/rank/{anime_rank}
-- [x] GET /api/anime/score/{anime_score}
+- [x] GET /api/v1/anime/extract
+- [x] GET /api/v1/anime
+- [x] GET /api/v1/anime/name/{anime_name}
+- [x] GET /api/v1/anime/genre/{genre_name}
+- [x] GET /api/v1/anime/rank/{anime_rank}
+- [x] GET /api/v1/anime/score/{anime_score}
 
 <p align="right">(<a href="#mal-api">back to top</a>)</p>
 
@@ -182,6 +183,7 @@ I think it would be interesting to place here some references and other resource
 * [StackOverflow](https://stackoverflow.com/questions/25589113/how-to-select-a-single-field-for-all-documents-in-a-mongodb-collection)
 * [w3schools: Python MongoDB Find](https://www.w3schools.com/python/python_mongodb_find.asp)
 * [How to Use *args and **kwargs in Python](https://www.freecodecamp.org/news/args-and-kwargs-in-python/)
+* [Design Patterns for REST-APIs](https://medium.com/@patricksavalle/rest-api-design-as-a-craft-not-an-art-a3fd97ed3ef4)
 
 <p align="right">(<a href="#mal-api">back to top</a>)</p>
 

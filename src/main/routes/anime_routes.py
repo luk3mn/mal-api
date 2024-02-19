@@ -11,11 +11,11 @@ anime_routes_bp = Blueprint('anime_routes', __name__)
 def index():
     return "Home application"
 
-@anime_routes_bp.route('/populate', methods=["GET"])
+@anime_routes_bp.route('/api/v1/anime/extract', methods=["GET"])
 def populate_db():
+    """ GET /api/v1/anime/extract """
     try:
         processing = Processing()
-
         processing.extract_anime_rank()
         processing.load_anime_rank()
 
@@ -23,16 +23,16 @@ def populate_db():
     except Exception:
         return jsonify({"message": "Something went wrong!"}), 500
 
-@anime_routes_bp.route('/api/anime')
+@anime_routes_bp.route('/api/v1/anime')
 def get_anime() -> jsonify:
-    """ GET /api/anime """
+    """ GET /api/v1/anime """
     anime_repository = AnimeRepository("anime_rank")
     anime_response = anime_repository.find_documents()
 
     anime_rank_dto_list = []
     for anime in anime_response:
         anime_dto = AnimeDto(
-            title=anime['titles']['english'],
+            title=anime['titles']['japanese'],
             genres=anime['information']['genres'],
             cover=anime['cover'],
             status=anime['information']['status'],
@@ -44,11 +44,11 @@ def get_anime() -> jsonify:
     if not anime_rank_dto_list:
         return jsonify({"message": "There's no any data into database]"}), 404
     else:
-        return jsonify(anime_rank_dto_list), 201
+        return jsonify(anime_rank_dto_list)
 
-@anime_routes_bp.route('/api/anime/genre/<string:genre_name>', methods=["GET"])
+@anime_routes_bp.route('/api/v1/anime/genre/<string:genre_name>', methods=["GET"])
 def get_by_genre(genre_name: str) -> jsonify:
-    """ GET /api/anime/genre/{genre_name} """
+    """ GET /api/v1/anime/genre/{genre_name} """
     anime_repository = AnimeRepository("anime_rank")
     anime_response = anime_repository.find_documents()
 
@@ -58,7 +58,7 @@ def get_by_genre(genre_name: str) -> jsonify:
         if genre_name in [x.lower() for x in genres]:
 
             anime_dto = AnimeDto(
-                title=anime['titles']['english'],
+                title=anime['titles']['japanese'],
                 genres=anime['information']['genres'],
                 cover=anime['cover'],
                 status=anime['information']['status'],
@@ -72,9 +72,9 @@ def get_by_genre(genre_name: str) -> jsonify:
     else:
         return jsonify({"message":f"Results to anime by '{genre_name}' genre"}, filtered_by_genre)
 
-@anime_routes_bp.route('/api/anime/score/<anime_score>', methods=["GET"])
+@anime_routes_bp.route('/api/v1/anime/score/<anime_score>', methods=["GET"])
 def get_by_score(anime_score: int) -> jsonify:
-    """ GET /api/anime/score/{anime_score} """
+    """ GET /api/v1/anime/score/{anime_score} """
     anime_repository = AnimeRepository("anime_rank")
     anime_response = anime_repository.find_documents()
 
@@ -83,7 +83,7 @@ def get_by_score(anime_score: int) -> jsonify:
         if int(anime_score) == round(anime['statistics']['score']):
             anime_score_dto = AnimeScoreDto(
                 cover=anime['cover'],
-                title=anime['titles']['english'],
+                title=anime['titles']['japanese'],
                 score=anime['statistics']['score'],
                 aired=anime['information']['aired']
             )
@@ -94,9 +94,9 @@ def get_by_score(anime_score: int) -> jsonify:
         return jsonify({"message":f"Score '{anime_score}' does not exists"}), 404
     return jsonify(filtered_by_score)
 
-@anime_routes_bp.route('/api/anime/rank/<anime_rank>', methods=["GET"])
+@anime_routes_bp.route('/api/v1/anime/rank/<anime_rank>', methods=["GET"])
 def get_by_rank(anime_rank: int) -> jsonify:
-    """ GET /api/anime/rank/{anime_rank} """
+    """ GET /api/v1/anime/rank/{anime_rank} """
     anime_repository = AnimeRepository("anime_rank")
     anime_response = anime_repository.find_documents()
 
@@ -105,7 +105,7 @@ def get_by_rank(anime_rank: int) -> jsonify:
         if int(anime_rank) == anime['statistics']['ranked']:
             anime_rank_dto = AnimeRankDto(
                 cover=anime['cover'],
-                title=anime['titles']['english'],
+                title=anime['titles']['japanese'],
                 popularity=anime['statistics']['popularity'],
                 rank=anime['statistics']['ranked'],
                 aired=anime['information']['aired'],
@@ -122,15 +122,15 @@ def get_by_rank(anime_rank: int) -> jsonify:
         return jsonify({"message":f"The rank '{anime_rank}' does not exists"}), 404
     return jsonify(filtered_by_rank)
 
-@anime_routes_bp.route('/api/anime/name/<anime_name>', methods=["GET"])
+@anime_routes_bp.route('/api/v1/anime/name/<anime_name>', methods=["GET"])
 def get_by_name(anime_name: int) -> jsonify:
-    """ GET /api/anime/name/{anime_name} """
+    """ GET /api/v1/anime/name/{anime_name} """
     anime_repository = AnimeRepository("anime_rank")
     anime_response = anime_repository.find_documents()
 
     filtered_by_name = []
     for anime in anime_response:
-        if anime_name in anime['titles']['english'].lower():
+        if anime_name in anime['titles']['japanese'].lower() or anime_name in anime['titles']['english'].lower():
             filtered_by_name.append(anime)
 
     if not filtered_by_name:

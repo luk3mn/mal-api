@@ -26,6 +26,7 @@ class Processing:
             link_details = str(ranking.find('a', class_='hoverinfo_trigger fl-l ml12 mr8')['href'])
             access_details = requests.get(link_details, headers=headers, timeout=10)
             soup_details = BeautifulSoup(access_details.text, 'html.parser')
+            original_title = soup_details.find('strong').text
             leftside = soup_details.find('div', class_='leftside')
             for detail in leftside.find_all('div', class_='spaceit_pad'):
                 cover = ranking.find('img')['data-srcset'].split(',')[1].split(' ')[1]
@@ -35,7 +36,8 @@ class Processing:
                     synonyms = anime_detail[1].strip()
 
                 if anime_detail[0] == "Japanese":
-                    japanese = anime_detail[1].strip()
+                    # japanese = anime_detail[1].strip()
+                    japanese = original_title
 
                 if anime_detail[0] == "English":
                     english = anime_detail[1].strip()
@@ -83,7 +85,7 @@ class Processing:
                     popularity = int(anime_detail[1].split("#")[1])
 
                 if anime_detail[0] == "Members":
-                    members = anime_detail[1].replace(',','.')
+                    members = anime_detail[1].replace(',','.').strip()
 
                 if anime_detail[0] == "Favorites":
                     favorites = float(anime_detail[1].replace(',','.'))
