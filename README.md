@@ -13,7 +13,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/luk3mn/mal-api">
-    <!-- <img src="https://pipedream.com/s.v0/app_mqeh75/logo/orig" alt="Logo" width="80" height="80"> -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/58/MyAnimeList_-_Full_Text_Logo.jpg" alt="Logo" width="160" height="80">
   </a>
 
   <h3 align="center">MAL - API</h3>
@@ -65,18 +65,83 @@
   [...] 
 
   In this project, it was necessary to split it into three parts, such as: 
-  - **ETL Pipeline:** ...;
-  - **Database configuration:** ...;
-  - **Build Rest API:** ...;
+  - **ETL Pipeline:** Extraction using web scraping strategy, transformation of these data and load in the MongoDB database;
+  - **Database configuration:** configuration to assist a connection from Flask application to MongoDB collections;
+  - **Build Rest API:** It was created some endpoints API to consume these data from the database;
 </p> 
 
-### Processing
+### Extract and Validation
+All the data used in this project belongs to <a href='https://myanimelist.net/'>My Anime List</a> extracted by web scraping method and it was possible by using the library **"Beautiful Soup"**. During this process, it was able to go through several contents and organize them to store in a dictionary to facilitate some validation process before loading in the MongoDB database.
 
-> Extract
 
-> Transform
+### Load on MongoDB
+To be able to create a connection between Flask and MongoDB, it was necessary to use the library **"pymongo"** which facilitated a bunch of features that included connection resources and collection manipulation.
 
-> Load
+
+### REST API
+The API endpoints were built using the Flask framework from Python and on top of that, it was needed to create a DTO class to limit the quantity of information during endpoint requests.
+
+---
+#### Extract new data from the data source
+
+```http
+  GET /api/v1/anime/extract
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `None`    |  `None`  | **Required**. to extract and load new data |
+
+---
+#### List all anime
+
+```http
+  GET /api/v1/anime
+```
+
+| Parameter     | Type     |     Description      |
+| :-------------| :------- | :------------------- |
+| `None`        | `None`   | to list all anime    |
+
+---
+#### Get by anime name
+```http
+  GET /api/v1/anime/name/${anime_name}
+```
+
+| Parameter     | Type     |     Description      |
+| :-------------| :------- | :------------------- |
+| `anime_name`  | `string`    | to get anime by name |
+
+---
+#### Get anime by genre
+```http
+  GET /api/v1/anime/genre/${genre_name}
+```
+
+| Parameter     | Type     |     Description      |
+| :-------------| :------- | :------------------- |
+| `genre_name`  | `string`    | to get anime by genre |
+
+---
+#### Get anime by rank
+```http
+  GET /api/v1/anime/rank/${anime_rank}
+```
+
+| Parameter     | Type     |     Description      |
+| :-------------| :------- | :------------------- |
+| `anime_rank`  | `integer`    | to get anime by rank |
+
+---
+#### Get anime by score
+```http
+  GET /api/v1/anime/score/${anime_score}
+```
+
+| Parameter      | Type     |     Description      |
+| :--------------| :------- | :------------------- |
+| `anime_score`  | `integer`    | to get anime by score |
 
 
 
@@ -91,7 +156,6 @@ Write here
 * [![Python][Python]][Python-url]
 * [![Flask][Flask]][Flask-url]
 * [![Mongo][Mongo]][Mongo-url]
-<!-- * [![Pandas][Pandas]][Pandas-url] -->
 
 <p align="right">(<a href="#mal-api">back to top</a>)</p>
 
@@ -109,16 +173,25 @@ Here are some important topics about this project and how to replay it.
   python3 -m venv .venv
   ```
 
+* Environment Variables
+  
+  To run this project, you will need to add the following environment variables to your **.env** file
+
+  `HOST`
+
+  `PORT`
+
+  `DB_NAME`
+
 ### Installation
 
 _Before starting this application in your local environment, it'll be necessary to proceed with some tasks to reproduce this project._
 
-1. Get API Access [https://developer.spotify.com](https://developer.spotify.com/documentation/web-api)
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/luk3mn/mal-api.git
    ```
-3. Install packages
+2. Install packages
    ```sh
    pip freeze -r requirements.txt
    ```
@@ -128,16 +201,22 @@ _Before starting this application in your local environment, it'll be necessary 
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Usage / Examples
+
+<!-- ### Screenshots
+
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here) -->
+
+
 
 
 <!-- ROADMAP -->
 ## Roadmap
 
 > Processing
-- [x] Extract: get data from source using web scrapping
-- [x] Transform: to valid some information before storing in database
-- [x] Load: store data into mongodb database
+- [x] Extract: get data from the source using web scraping
+- [x] Transform: to valid some information before storing it in the database
+- [x] Load: store data in MongoDB database
 
 > MongoDB
 - [x] Database configuration
@@ -151,9 +230,14 @@ _Before starting this application in your local environment, it'll be necessary 
 - [x] GET /api/v1/anime/rank/{anime_rank}
 - [x] GET /api/v1/anime/score/{anime_score}
 
+> Deploy
+- [ ] AWS
+
 <p align="right">(<a href="#mal-api">back to top</a>)</p>
 
+<!-- ## Lessons Learned
 
+What did you learn while building this project? What challenges did you face and how did you overcome them? -->
 
 <!-- LICENSE -->
 ## License
@@ -163,13 +247,16 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <p align="right">(<a href="#mal-api">back to top</a>)</p>
 
 
-
 <!-- CONTACT -->
-## Contact
+## Authors
 
-Lucas Renan - lucasnunes2030@gmail.com
+- username: [@luk3mn](https://www.github.com/luk3mn)
 
-Project Link: [https://github.com/luk3mn/mal-api](https://github.com/luk3mn/mal-api)
+## Feedback
+
+If you have any feedback, please reach out to us at lucasnunes2030@gmail.com
+
+> Project Link: [https://github.com/luk3mn/mal-api](https://github.com/luk3mn/mal-api)
 
 <p align="right">(<a href="#mal-api">back to top</a>)</p>
 
@@ -177,7 +264,7 @@ Project Link: [https://github.com/luk3mn/mal-api](https://github.com/luk3mn/mal-
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-I think it would be interesting to place here some references and other resources that were really useful and helped me to work on this project.
+I think it would be interesting to place here some references and other resources that were useful and helped me to work on this project.
 * [Web Scraping With Python – Step-By-Step Guide](https://brightdata.com/blog/how-tos/web-scraping-with-python)
 * [Beautiful Soup: Build a Web Scraper With Python](https://realpython.com/beautiful-soup-web-scraper-python/)
 * [StackOverflow](https://stackoverflow.com/questions/25589113/how-to-select-a-single-field-for-all-documents-in-a-mongodb-collection)
@@ -212,5 +299,3 @@ I think it would be interesting to place here some references and other resource
 [Flask-url]: https://flask.palletsprojects.com/en/3.0.x/
 [Mongo]: https://img.shields.io/badge/Mongodb-green?style=for-the-badge&logo=mongodb&logoColor=ffffff
 [Mongo-url]: https://www.mongodb.com/docs/
-<!-- [Pandas]: https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=ffffff
-[Pandas-url]: https://pandas.pydata.org/ -->
