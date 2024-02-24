@@ -151,11 +151,10 @@ The API endpoints were built using the Flask framework from Python and on top of
 
 ### Built With
 
-Write here
-
 * [![Python][Python]][Python-url]
 * [![Flask][Flask]][Flask-url]
 * [![Mongo][Mongo]][Mongo-url]
+* [![Javascript][Javascript]][Javascript-url]
 
 <p align="right">(<a href="#mal-api">back to top</a>)</p>
 
@@ -208,6 +207,14 @@ _Before starting this application in your local environment, it'll be necessary 
 ![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here) -->
 
 
+## Deployment
+
+To deploy this project run
+
+* Running the application and MongoDB using containers
+    ```bash
+    sudo docker-compose up -d
+    ```
 
 
 <!-- ROADMAP -->
@@ -229,6 +236,10 @@ _Before starting this application in your local environment, it'll be necessary 
 - [x] GET /api/v1/anime/genre/{genre_name}
 - [x] GET /api/v1/anime/rank/{anime_rank}
 - [x] GET /api/v1/anime/score/{anime_score}
+
+> Docker
+- [x] Run Python application by docker
+- [x] Run MongoDB database by docker
 
 > Deploy
 - [ ] AWS
@@ -264,13 +275,20 @@ If you have any feedback, please reach out to us at lucasnunes2030@gmail.com
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-I think it would be interesting to place here some references and other resources that were useful and helped me to work on this project.
+I think it would be interesting to place here some references and other resources that were useful and helped me to work on this project. I hope it can help you as well!
 * [Web Scraping With Python – Step-By-Step Guide](https://brightdata.com/blog/how-tos/web-scraping-with-python)
 * [Beautiful Soup: Build a Web Scraper With Python](https://realpython.com/beautiful-soup-web-scraper-python/)
 * [StackOverflow](https://stackoverflow.com/questions/25589113/how-to-select-a-single-field-for-all-documents-in-a-mongodb-collection)
 * [w3schools: Python MongoDB Find](https://www.w3schools.com/python/python_mongodb_find.asp)
 * [How to Use *args and **kwargs in Python](https://www.freecodecamp.org/news/args-and-kwargs-in-python/)
 * [Design Patterns for REST-APIs](https://medium.com/@patricksavalle/rest-api-design-as-a-craft-not-an-art-a3fd97ed3ef4)
+* [How to Dockerize a Flask Application](https://www.freecodecamp.org/news/how-to-dockerize-a-flask-app/)
+* [Python MongoDB tutorial using PyMongo and Docker](https://www.youtube.com/watch?v=xb3v2kTJM28&ab_channel=CoderVlogger)
+* [Creating Dockerized Flask + MongoDB Application](https://medium.com/analytics-vidhya/creating-dockerized-flask-mongodb-application-20ccde391a)
+* [How To Set Up Flask with MongoDB and Docker](https://www.digitalocean.com/community/tutorials/how-to-set-up-flask-with-mongodb-and-docker)
+* [Create an API using Flask, MongoDB and Docker](https://blog.tkav.dev/create-an-api-using-flask-mongodb-and-docker)
+* [MongoDB docker image documentation](https://hub.docker.com/_/mongo/)
+* [Quick MongoDB Docker Setup](https://cj-hewett.medium.com/quick-mongodb-docker-setup-d1959c8fc8f2)
 
 <p align="right">(<a href="#mal-api">back to top</a>)</p>
 
@@ -299,3 +317,5 @@ I think it would be interesting to place here some references and other resource
 [Flask-url]: https://flask.palletsprojects.com/en/3.0.x/
 [Mongo]: https://img.shields.io/badge/Mongodb-green?style=for-the-badge&logo=mongodb&logoColor=ffffff
 [Mongo-url]: https://www.mongodb.com/docs/
+[Javascript]: https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black
+[Javascript-url]: https://developer.mozilla.org/pt-BR/docs/Web/JavaScript
