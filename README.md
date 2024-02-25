@@ -201,21 +201,40 @@ _Before starting this application in your local environment, it'll be necessary 
 
 <!-- USAGE EXAMPLES -->
 ## Usage / Examples
+<p style="text-align: justify"> This project can be deployed on AWS simply by using an EC2 instance and releasing port 5000 to the Anywhere IP address. Once the instance is working, just follow the <span style="font-weight: 700; font-style: italic">Deplymet</span> steps next and use an IP address allocated to the EC2 instance on port 5000 on Postman, APIDOG or whatever application that allows the testing of web APIs. </p>
 
-<!-- ### Screenshots
+### Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here) -->
+- GET /api/v1/anime
+![Anime Route](assets/anime_route.png)
 
+
+- GET /api/v1/anime/rank/1
+![Anime Route](assets/anime_rank_1_route.png)
+
+
+- GET /api/v1/anime/rank/50
+![Anime Route](assets/anime_rank_50_route.png)
+
+
+- Running on AWS EC2 using Docker containers
+![Anime Route](assets/aws_deployment.png)
 
 ## Deployment
 
 To deploy this project run
 
+* [Install Docker Engine](https://docs.docker.com/engine/install/)
+
+* docker-compose
+  ```sh
+  sudo apt  install docker-compose
+  ```
+
 * Running the application and MongoDB using containers
     ```bash
     sudo docker-compose up -d
     ```
-
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -242,13 +261,14 @@ To deploy this project run
 - [x] Run MongoDB database by docker
 
 > Deploy
-- [ ] AWS
+- [x] AWS
 
 <p align="right">(<a href="#mal-api">back to top</a>)</p>
 
-<!-- ## Lessons Learned
+## Lessons Learned
 
-What did you learn while building this project? What challenges did you face and how did you overcome them? -->
+<p style="text-align: justify"> 
+This project was an excellent learning object for me. I was able to deep into REST API architecture using Python and Flask, ways to use Docker to deploy an application in a container by using docker-compose and Dockerfile, and finally to get running the application on the cloud using AWS EC2 Instances.</p>
 
 <!-- LICENSE -->
 ## License
