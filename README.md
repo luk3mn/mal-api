@@ -58,16 +58,16 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-![Home](src/assets/diagram.png)
+![Home](assets/mal-api.png)
 
 
 <p align="justify">
-  [...] 
 
-  In this project, it was necessary to split it into three parts, such as: 
+  In this project, it was necessary to split it into some parts, such as: 
   - **ETL Pipeline:** Extraction using web scraping strategy, transformation of these data and load in the MongoDB database;
   - **Database configuration:** configuration to assist a connection from Flask application to MongoDB collections;
   - **Build Rest API:** It was created some endpoints API to consume these data from the database;
+  - **Deployment on AWS:** It's time to make this project available on the internet, and to fulfill this step it's necessary to use containers docker to work with the application and database separately and an easy way to apply changes whenever we want;
 </p> 
 
 ### Extract and Validation
@@ -228,7 +228,7 @@ To deploy this project run
 
 * docker-compose
   ```sh
-  sudo apt  install docker-compose
+  sudo apt install docker-compose
   ```
 
 * Running the application and MongoDB using containers
